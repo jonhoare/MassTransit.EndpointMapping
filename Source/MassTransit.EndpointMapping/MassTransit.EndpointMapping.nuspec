@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>jonhoare</authors>
+    <owners>jonhoare</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A helper extension for MassTransit to assist Mapping Commands to Queues</description>
+    <projectUrl>https://github.com/jonhoare/MassTransit.EndpointMapping</projectUrl>
+  </metadata>
+</package>
