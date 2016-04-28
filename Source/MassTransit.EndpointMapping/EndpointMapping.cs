@@ -7,9 +7,14 @@ namespace MassTransit.EndpointMapping
     {
         private static readonly Dictionary<string, string> Mappings = new Dictionary<string, string>();
 
-        public static void AddMapping(string ns, string endpointUri)
+        /// <summary>
+        /// Adds a mapping of a Namespace to an Endpoint QueueName
+        /// </summary>
+        /// <param name="ns">The Namespace where a set of Commands are located</param>
+        /// <param name="endpointQueueName">The endpoints queuename where commands in this namespace are to be sent</param>
+        public static void AddMapping(string ns, string endpointQueueName)
         {
-            Mappings.Add(ns, endpointUri);
+            Mappings.Add(ns, endpointQueueName);
         }
 
         internal static Uri GetEndpointUri(Uri baseUri, dynamic model)

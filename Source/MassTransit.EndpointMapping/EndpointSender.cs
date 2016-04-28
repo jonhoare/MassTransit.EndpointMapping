@@ -14,14 +14,14 @@ namespace MassTransit.EndpointMapping
             _bus = bus;
         }
 
-        public async Task Send(object model)
+        public async Task Send(object command)
         {
             var address = _busControl.Address;
 
             var baseUriBuilder = new UriBuilder(address.Scheme, address.Host);
 
-            var endpoint = await _bus.GetSendEndpoint(EndpointMapping.GetEndpointUri(baseUriBuilder.Uri, model));
-            await endpoint.Send(model);
+            var endpoint = await _bus.GetSendEndpoint(EndpointMapping.GetEndpointUri(baseUriBuilder.Uri, command));
+            await endpoint.Send(command);
         }
     }
 }
