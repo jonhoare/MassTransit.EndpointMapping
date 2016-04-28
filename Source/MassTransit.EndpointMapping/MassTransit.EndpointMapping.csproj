@@ -36,14 +36,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\Library\Packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="MassTransit, Version=3.3.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
+      <HintPath>..\..\Library\Packages\MassTransit.3.3.0\lib\net45\MassTransit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MassTransit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\..\Library\Packages\MassTransit.3.2.4\lib\net45\MassTransit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="NewId, Version=2.1.3.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
       <HintPath>..\..\Library\Packages\NewId.2.1.3\lib\net45\NewId.dll</HintPath>
       <Private>True</Private>
@@ -62,10 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacModule.cs" />
+    <Compile Include="BusExtensions.cs" />
     <Compile Include="EndpointMapping.cs" />
-    <Compile Include="EndpointSender.cs" />
-    <Compile Include="IEndpointSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

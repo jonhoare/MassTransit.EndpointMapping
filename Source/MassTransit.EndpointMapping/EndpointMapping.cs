@@ -17,18 +17,24 @@ namespace MassTransit.EndpointMapping
             Mappings.Add(ns, endpointQueueName);
         }
 
-        internal static Uri GetEndpointUri(Uri baseUri, dynamic model)
+        /// <summary>
+        /// Gets the full Uri of the Endpoint Queue from the mapped endpoints dictionary
+        /// </summary>
+        /// <param name="baseUri">The Bus's baseUri</param>
+        /// <param name="command">The command to send</param>
+        /// <returns></returns>
+        public static Uri GetEndpointUri(Uri baseUri, dynamic command)
         {
             var endpointQueue = "";
 
-            var endpointType = model.GetType();
+            var endpointType = command.GetType();
 
             if (endpointType.Namespace == null)
                 throw new ApplicationException(string.Format("No namespace was found for {0}", endpointType.FullName));
 
             endpointQueue = Mappings[endpointType.Namespace];
 
-            return new Uri(string.Format("{0}/{1}", baseUri, endpointQueue));
+            return new Uri(string.Format("{0}{1}", baseUri, endpointQueue));
         }
     }
 }
