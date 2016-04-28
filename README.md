@@ -1,9 +1,11 @@
 # MassTransit.EndpointMapping
+
+## About
 Having previously worked with NServiceBus, I found their code to be very good at extracting away the mapping of Commands to Endpoint Queues.
 
 With MassTransit out of the box, whenever you want to Send a Command to a specific endpoint, you have to request an IBus, then call the method GetSendEndpoint, and pass in as a parameter the full path of the endpoint queue.
 
-I found this quite inconvient and made my code quite dirty. I ended up with lots of code in lots of my classes having to know about and ask for a SendEndpoint and each page had to know the full path of my endpoints.
+I found this quite inconvient and made my code quite dirty. I ended up with lots of code in lots of my classes having to know about and ask for a SendEndpoint and each class had to know the full path of my endpoints.
 
 So I have written an extension helper class to work with MassTransit that will allow me to register all my commands once and map them to specific queues.
 
