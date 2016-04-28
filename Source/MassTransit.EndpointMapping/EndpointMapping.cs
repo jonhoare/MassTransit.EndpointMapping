@@ -22,7 +22,7 @@ namespace MassTransit.EndpointMapping
         /// </summary>
         /// <param name="baseUri">The Bus's baseUri</param>
         /// <param name="command">The command to send</param>
-        /// <returns></returns>
+        /// <returns>The full endpoint Uri</returns>
         public static Uri GetEndpointUri(Uri baseUri, dynamic command)
         {
             var endpointQueue = "";
