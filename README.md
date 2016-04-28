@@ -5,15 +5,15 @@ With MassTransit out of the box, whenever you want to Send a Command to a specif
 
 I found this quite inconvient and made my code quite dirty. I ended up with lots of code in lots of my classes having to know about and ask for a SendEndpoint and each page had to know the full path of my endpoints.
 
-So I have written an extension helper class to work with MassTransit and Autofac, that will allow me to once, at application start, create a dictionary of namespaces and relative queue paths.
+So I have written an extension helper class to work with MassTransit that will allow me to register all my commands once and map them to specific queues.
 
-Now the only thing I need to ask for from Autofac is an IEndpointSender and call Send, passing in my command.
+Now I only need to call my new "Send" ExtensionMethod on an instance of an IBus, to send my command without worrying about knowing where it needs to be sent.
 
-The underlying code will first ask for your IBus and IBusControl to get the Bus' baseUri. Then the code will extract the Commands namespace and lookup the namespace in its dictionary to work out the relative queue path of where the command should be sent. This is combined with the BaseUri and then sent using the traditional MassTransit Send.
+When you call Send, the extension method will extract the namespace that the command belongs to and lookup the namespace in its dictionary to work out the relative queue path of where the command should be sent. This is combined with the BaseUri, derived from the current IBus Address, and then sent using the traditional MassTransit Send.
 
 If you have worked with NServiceBus before, the concept is similar, whereby you map a namespace to a specific Queue Uri.
 
-This has so far only been tested to work with Azure Service Bus queues and uses Autofac to register an IEndpointSender and Resolves your IBus and IBusControl instances.
+This should work with AzureServiceBus, RabbitMQ and the In-Memory transports.
 
 ## Usage:
 
