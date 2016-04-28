@@ -21,62 +21,43 @@ This has so far only been tested to work with Azure Service Bus queues and uses 
 ```
 namespace MyCompany.Service1.Contracts.V1.Commands
 {
-  public class MyCommandV1
+  public class FooCommandV1
   {
-    public MyCommandV1() { }
-    public MyCommandV1(string bar)
+    public FooCommandV1() { }
+    public FooCommandV1(string foo)
     {
-      Bar = bar;
+      Foo = foo;
     }
     
-    public string Bar { get; private set; }
+    public string Foo { get; private set; }
   }
 }
 ```
 
-First of all, you will need to have your application's Autofac ContainerBuilder register the Module. This is so that you can request an IEndpointSender and the EndpointSender can resolve your registered IBus and IBusControl.
-
-```
-var builder = new ContainerBuilder();
-builder.RegisterModule<MassTransit.EndpointMapping.AutofacModule>();
-var container = builder.Build();
-```
-Then at your application Startup you will want to add a mapping for each of your Commands Namespaces, and their relative QueueName where they are to be sent to.
+First of all, at application Startup you will want to add a mapping for each of your Commands Namespaces, and the QueueNames of where commands in the namespace are to be sent.
 
 ```
 public virtual void Configuration(IAppBuilder app)
 {
-    var config = ConfigureWebApi();
-    GlobalLifetimeScope = ConfigureAutofac();
-    config.DependencyResolver = new AutofacWebApiDependencyResolver(GlobalLifetimeScope);
-    app.UseAutofacMiddleware(GlobalLifetimeScope);
-    app.UseAutofacWebApi(config);
+    var config = new HttpConfiguration();
+    config.MapHttpAttributeRoutes();
     app.UseWebApi(config);
+    
     ConfigureEndpointMappings();
 }
 
 public static void ConfigureEndpointMappings()
 {
-    EndpointMapping.AddMapping("MyCompany.Service1.Contracts.V1.Commands", "service1queue");
-    EndpointMapping.AddMapping("MyCompany.Service2.Contracts.V1.Commands", "service2queue");
-    EndpointMapping.AddMapping("MyCompany.Service2.Contracts.V2.Commands", "service2queue");
+    EndpointMapping.AddMapping("MyCompany.Service1.Contracts.V1.Commands", "service1_queue");
+    EndpointMapping.AddMapping("MyCompany.Service2.Contracts.V1.Commands", "service2_queue");
+    EndpointMapping.AddMapping("MyCompany.Service2.Contracts.V2.Commands", "service2_queue");
 }
 ```
-Finally, when you need to send a command, request an IEndpointSender from autofac and call send, passing in your command.
+Finally, when you need to send a command, call the Send ExtensionMethod now available on an instance of an IBus.
 
 ```
-public class Foo
+public async void DoSomeWork()
 {
-    private IEndpointSender _endpointSender;
-    
-    public Foo(IEndpointSender endpointSender)
-    {
-      _endpointSender = endpointSender;
-    }
-    
-    public async void DoSomeWork()
-    {
-      _endpointSender.Send(new MyCommandV1("FooBar"));
-    }
+  await bus.Send(new FooCommandV1("FooBar"));
 }
 ```
